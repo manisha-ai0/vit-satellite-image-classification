@@ -1,0 +1,35 @@
+# ViT-Tiny-style model trained FROM SCRATCH (direct upgrade of the original CIFAR-10 project)
+experiment: vit_scratch
+seed: 42
+data:
+  root: data
+  img_size: 64            # EuroSAT native resolution
+  num_workers: 4
+  val_size: 0.15
+  test_size: 0.15
+  mean: [0.5, 0.5, 0.5]
+  std: [0.5, 0.5, 0.5]
+  ra_num_ops: 2
+  ra_magnitude: 9
+  random_erasing: 0.25
+model:
+  source: scratch
+  patch_size: 8           # (64/8)^2 = 64 patches
+  embed_dim: 192
+  depth: 6
+  num_heads: 3
+  mlp_ratio: 4.0
+  drop_path: 0.1
+train:
+  epochs: 80
+  batch_size: 128
+  lr: 1.0e-3
+  weight_decay: 0.05
+  warmup_epochs: 5
+  label_smoothing: 0.1
+  mixup_alpha: 0.2
+  cutmix_alpha: 1.0
+  mix_prob: 0.5
+  grad_clip: 1.0
+  amp: true
+  out_dir: runs

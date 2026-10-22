@@ -1,0 +1,32 @@
+# Pretrained ViT-S/16 (ImageNet-21k -> 1k, "augreg" weights) fine-tuned on EuroSAT
+experiment: vit_s16_finetune
+seed: 42
+data:
+  root: data
+  img_size: 224
+  num_workers: 4
+  val_size: 0.15
+  test_size: 0.15
+  mean: [0.5, 0.5, 0.5]   # augreg ViT weights were trained with mean=std=0.5
+  std: [0.5, 0.5, 0.5]
+  ra_num_ops: 2
+  ra_magnitude: 9
+  random_erasing: 0.25
+model:
+  source: timm
+  name: vit_small_patch16_224.augreg_in21k_ft_in1k
+  pretrained: true
+  drop_path: 0.1
+train:
+  epochs: 10
+  batch_size: 64
+  lr: 5.0e-5
+  weight_decay: 0.05
+  warmup_epochs: 1
+  label_smoothing: 0.1
+  mixup_alpha: 0.2
+  cutmix_alpha: 1.0
+  mix_prob: 0.5
+  grad_clip: 1.0
+  amp: true
+  out_dir: runs
